@@ -92,7 +92,7 @@ DATABASES = {
 }
 
 DATABASES={
-    "default":dj_database_url.parse("postgres://lmsdb_uucw_user:xRcph3ahIf5A4eTTcHlroxmsD4T3pHcS@dpg-ck1kht9gbqfc73a6kgr0-a.singapore-postgres.render.com/lmsdb_uucw")
+    "default":dj_database_url.parse("postgres://seekhodb_vtet_user:6ZShj978nZOZByW8ae5ybb1DhNQpqn1N@dpg-cndjtmv109ks738s7st0-a.singapore-postgres.render.com/seekhodb_vtet")
 }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
