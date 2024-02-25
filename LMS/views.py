@@ -1,8 +1,15 @@
+#from .models import Categories, Video, Course, UserCourse
+import logging
+logger = logging.getLogger(__name__)
 # views.py
 from django.http import HttpResponseForbidden
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+from django.shortcuts import redirect
 
 from django.contrib import messages
-from django.shortcuts import redirect,render
+#from django.shortcuts import redirect,render
 from django.core.mail import send_mail
 from seekho_app.models import Categories,Course,Level, Video,UserCourse,Payment
 from django.template.loader import render_to_string
@@ -15,6 +22,10 @@ from .settings import *
 
 import razorpay
 from time import time
+import logging
+
+# Create a logger
+logger = logging.getLogger(__name__)
 
 
 client = razorpay.Client(auth=(KEY_ID, KEY_SECRET))
@@ -22,15 +33,35 @@ client = razorpay.Client(auth=(KEY_ID, KEY_SECRET))
 def BASE(request):
     return render(request,'base.html')
 
+
 def HOME(request):
-    category= Categories.objects.all().order_by('id')
-    course = Course.objects.filter(status ='PUBLISH').order_by('-id') 
+    # Fetch all Categories from the database and order them by 'id'
+    category = Categories.objects.all().order_by('id')
+    
+    # Fetch all Course objects with status 'PUBLISH' from the database and order them by '-id'
+    course = Course.objects.filter(status='PUBLISH').order_by('-id')
+
+    # Create a dictionary context with the fetched data
+    context = {
+        'category': category,
+        'course': course,
+    }
+
+    # Render the 'main/home.html' template with the context data and return the response
+    return render(request, 'main/home.html', context)
+
+
+
+def HOME(request):
+    category= Categories.objects.all()
+    course = Course.objects.filter(status ='PUBLISH')
 
     context={
         'category':category,
         'course': course,
     }
     return render(request,'main/home.html',context)
+ 
 
 def SINGLE_COURSE(request):
     category = Categories.get_all_category(Categories)
@@ -72,11 +103,10 @@ def filter_data(request):
 
     context={
         'course': course
- 
-
     }
 
     t = render_to_string('ajax/course.html', context)
+    
     return JsonResponse({'data':t})
 
 def CONTACT_US(request):
@@ -106,34 +136,42 @@ def SEARCH_COURSE(request):
     }
     return render(request, 'search/search.html',context)
 
+
 def COURSE_DETAILS(request, slug):
-    category=Categories.get_all_category(Categories)
-    time_duration = Video.objects.filter(course__slug= slug).aggregate(sum=Sum('time_duration'))
-    
-    course_id= Course.objects.get(slug = slug)
+    category = Categories.get_all_category(Categories)
 
-    try:
-        check_enroll = UserCourse.objects.get(user = request.user,course=course_id)
-  
-    except UserCourse.DoesNotExist:
-        check_enroll=None
+    logger.debug(category)
 
-    course = Course.objects.filter(slug = slug )   
+    time_duration = Video.objects.filter(course__slug=slug).aggregate(sum=Sum('time_duration'))
 
-    if course.exists():
-        course=course.first()
-    else:
+    course = Course.objects.filter(slug=slug)
+
+    if not course.exists():
         return redirect('404')
-    
-    context={
-        'course':course,
-        'category':category,
-        'time_duration' : time_duration,
-        'check_enroll': check_enroll,
-       
 
-    }
-    return render(request,'course/course_details.html',context)
+    course = course.first()
+
+    check_enroll = None
+
+    if request.user.is_authenticated:
+
+        course_id = Course.objects.get(slug=slug)
+
+        try:
+            check_enroll = UserCourse.objects.get(user=request.user, course=course_id)
+        except UserCourse.DoesNotExist:
+            pass
+
+        context = {
+            'course': course,
+            'category': category,
+            'time_duration': time_duration,
+            'check_enroll': check_enroll,
+        }
+
+        return render(request, 'course/course_details.html', context)
+    else:
+        return render(request, 'registration/register.html')
 
 def PAGE_NOT_FOUND(request):
     category=Categories.get_all_category(Categories)
@@ -223,7 +261,7 @@ def VERIFY_PAYMENT(request):
         try:
             client.utility.verify_paytment_signature(data)
             razorpay_order_id = data['razorpay_order_id']
-            razorpay_payment_id = data['razorpay_payment_id']
+            razorpay_payment_id = data['razorpa y_payment_id']
 
             payment= Payment.objects.get(order_id=razorpay_order_id)
             payment.payment_id =razorpay_payment_id
