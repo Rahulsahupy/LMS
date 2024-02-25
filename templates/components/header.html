@@ -1,29 +1,33 @@
 {% load static %}
-<div class="d-none d-xl-block bg-mongoose py-1 position-relative z-index-2">
+
+<div class="ribbon-container">
+  <div class="d-none d-xl-block bg-mongoose py-1 position-relative z-index-2">
+
     <div class="container">
         <div class="d-flex align-items-center">
             <ul class="nav mx-n3 line-height-one font-montserrat">
                 <li class="nav-item px-3">
-                    <span class="font-size-xs text-white">(+91) 84472 42558</span>
+                    <span class="font-size-xs text-white">(+91) 8750695256</span>
                 </li>
                 <li class="nav-item px-3">
-                    <span class="font-size-xs text-white">seekhocoding.com</span>
+                    <span class="font-size-xs text-white">seekhocomputer.com</span>
                 </li>
             </ul>
 
             <ul class="nav ms-auto me-n3 font-size-sm">
                 <li class="nav-item px-3">
-                    <a href="https://www.facebook.com/campaign/landing.php?campaign_id=14884913640&extra_1=s%7Cc%7C589460569900%7Cb%7Cfacebook%20login%20account%7C&placement=&creative=589460569900&keyword=facebook%20login%20account&partner_id=googlesem&extra_2=campaignid%3D14884913640%26adgroupid%3D128696221912%26matchtype%3Db%26network%3Dg%26source%3Dnotmobile%26search_or_content%3Ds%26device%3Dc%26devicemodel%3D%26adposition%3D%26target%3D%26targetid%3Dkwd-296914611740%26loc_physical_ms%3D9061674%26loc_interest_ms%3D%26feeditemid%3D%26param1%3D%26param2%3D&gclid=CjwKCAjwq4imBhBQEiwA9Nx1BvQxbbJqU77cGnUgGNONwNNUKub6S9HcWhdpvlsBr1ClipRXWrasVhoC98cQAvD_BwE" class="nav-link p-0 text-white">
+                    <a href=https://www.facebook.com/profile.php?id=100090619387521">
                         <i class="fab fa-facebook-f"></i>
                     </a>
                 </li>
                 <li class="nav-item px-3">
-                    <a href="https://www.youtube.com/channel/UCKIqE8JnL_8fa0xBCQavOUQ" class="nav-link p-0 text-white">
+                    <a href="https://www.youtube.com/channel/UCGyTjPYIOWsoVX2QXxKvg6g
+                    ">
                         <i class="fab fa-youtube"></i>
                     </a>
                 </li>
                 <li class="nav-item px-3">
-                    <a href="https://www.instagram.com/seekho_coding" class="nav-link p-0 text-white">
+                    <a href="https://instagram.com/seekhocomputer?utm_source=qr&igshid=MzNlNGNkZWQ4Mg%3D%3D" class="nav-link p-0 text-white">
                         <i class="fab fa-instagram">/</i>
                     </a>
                 </li>
@@ -48,8 +52,8 @@
         <div class="container">
 
             <!-- Brand -->
-            <a class="navbar-brand" href="index.html">
-                <img src="{% static 'assets/img/brand.png' %}" class="navbar-brand-img" alt="...">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'assets/img/seekho.png' %}" class="navbar-brand-img" alt="home.html">
             </a>
 
             <!-- Vertical Menu -->
@@ -66,7 +70,8 @@
                                 </svg>
 
                             </div>
-                            <span class="text-gigas fw-medium me-1">Courses</span>
+                          
+                            <span style="color: white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; font-weight: bold;">Courses</span>
                         </div>
                     </a>
 
@@ -116,31 +121,34 @@
 
                 <!-- Navigation -->
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown dropdown-full-width ">
-                        <a class="nav-link px-xl-4 text-gigas"  href="{% url 'home'%}">
-                            <span>Home</span>
+                    <li class="nav-item dropdown dropdown-full-width">
+
+                    <li class="nav-item dropdown dropdown-full-width">
+                        <a class="nav-link px-xl-4 text-gigas" href="{% url 'home'%}">
+                            <span style="color: white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; font-weight: bold;">Home</span>
                         </a>
 
                     </li>
                     <li class="nav-item dropdown dropdown-full-width">
                         <a class="nav-link text-gigas"  href="{% url 'about_us'%}">
-                            About
+                            <span style="color: white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; font-weight: bold;">About</span>
                         </a>
 
                     </li>
                     <li class="nav-item dropdown dropdown-full-width">
                         <a class="nav-link text-gigas"  href="{% url 'contact_us'%}">
-                            Contact Us
+                            <span style="color: white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; font-weight: bold;">Contact Us</span>
                         </a>
 
                     </li>
+                    {% if user.is_authenticated and user.first_name == '' %}
                     <li class="nav-item dropdown dropdown-full-width">
                         <a class="nav-link text-gigas"  href="{% url 'my_course'%}">
-                            My Courses
+                            <span style="color: white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; font-weight: bold;">My Course</span>
                         </a>
 
                     </li>
-                     {% if user.is_authenticated and user.first_name == '' %}
+
                      <li class="nav-item dropdown border-0 px-1 px-md-3">
                          <a class="nav-link dropdown-toggle" id="user" data-bs-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">
                            Welcome , {{user.username}}
